@@ -1,0 +1,24 @@
+
+#Run these
+roscore
+roslaunch ur5_gazebo ur5_cubes.launch
+roslaunch ur5_gazebo octomap_mapping.launch
+rosrun rviz rviz #Add markers and change topic after running octomap
+
+#Interaction
+rosrun ur5_gazebo send_joints.py #Move joints
+rosrun ur5_gazebo send_gripper.py --value 0.8 #Close gripper
+
+#Save map
+rusrun octomap_server octomap_saver -f my_octomap.bt #bt binary, ot full information
+
+
+#Location of camera urdf
+/home/levi/catkin_ws/src/ur5/ur5_description/urdf 
+
+#Location of octomap launch and world launch
+/home/levi/catkin_ws/src/ur5/ur5_gazebo/launch
+
+
+
+
