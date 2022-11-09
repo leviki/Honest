@@ -1,0 +1,47 @@
+controller_list:
+# Joint state controller (publish joint states)
+ - name: joint_state_controller
+   publish_rate: 125
+   action_ns: follow_joint_trajectory
+   type: FollowJointTrajectory 
+# type: joint_state_controller/JointStateController
+#   joints:
+
+# Gripper controller
+ - name: gripper_controller
+   action_ns: gripper_action
+   type: GripperCommand   
+# type: position_controllers/GripperActionController
+   joints: 
+    - robotiq_85_left_knuckle_joint
+    - robotiq_85_right_knuckle_joint
+#   action_monitor_rate: 20
+#   goal_tolerance: 0.002
+#   max_effort: 100
+#   stall_velocity_threshold: 0.001
+#   stall_timeout: 1.0
+
+# Trajectory controller
+ - name: trajectory_controller
+   action_ns: follow_joint_trajectory
+   type: FollowJointTrajectory   
+# type: position_controllers/JointTrajectoryController
+   joints:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+#   constraints:
+#    goal_time: 0.6
+#    stopped_velocity_tolerance: 0.05
+#    shoulder_pan_joint: {trajectory: 0.1, goal: 0.1}
+#    shoulder_lift_joint: {trajectory: 0.1, goal: 0.1}
+#    elbow_joint: {trajectory: 0.1, goal: 0.1}
+#    wrist_1_joint: {trajectory: 0.1, goal: 0.1}
+#    wrist_2_joint: {trajectory: 0.1, goal: 0.1}
+#    wrist_3_joint: {trajectory: 0.1, goal: 0.1}
+#   stop_trajectory_duration: 0.5
+#   state_publish_rate: 25
+#   action_monitor_rate: 10
