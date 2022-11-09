@@ -12,6 +12,7 @@ roslaunch ur5_description display_with_gripper.launch #Show arm
 #Interaction
 rosrun ur5_gazebo send_joints.py #Move joints
 rosrun ur5_gazebo send_gripper.py --value 0.8 #Close gripper
+rosrun ur5_gazebo tutorial.py
 
 #MoveIt
 #Usage with Gazebo Simulation
