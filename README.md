@@ -16,26 +16,35 @@ The current obstace is very simple but improving the octomap could make this a m
 ##Steps
 First, launch 2 terminals, or one with 2 tabs. 
 Go to the right folder, for me:
-'cd catkin_ws' 
+
+`cd catkin_ws`
+
 Then source
-'source devel/setup.bash' 
+
+`source devel/setup.bash`
 
 In the first terminal, launch the assignment
-'roslaunch ur5_gazebo Assignment.launch' 
+
+`roslaunch ur5_gazebo Assignment.launch`
 
 ![Image of terminal](Pictures/1.png)
 
 This launches gazebo first. Gazebo starts pauzed, press play to continue the boot (RVIZ will be waiting)
+
 ![Image of gazebo](./Pictures/2.png)
 
 After the boot, I used a 2 screen setup to see the code, gazebo and rviz at the same time.
+
 ![Image of 2 screen setup](./Pictures/3.png)
 
 Wait until the first terminal says "you can start planning now" in green before continuing to the second terminal, then run the python file
-'rosrun ur5_gazebo Assignment.py' 
+
+`rosrun ur5_gazebo Assignment.py` 
+
 ![Image of starting python executable](./Pictures/4.png)
 
 The python file is made that the screen prints what happens at each step. Images are inserted below to show each step.
+
 ![Image of python executable](./Pictures/5.png)
 ![Image of python executable](./Pictures/6.png)
 ![Image of python executable](./Pictures/7.png)
