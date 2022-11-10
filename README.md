@@ -22,25 +22,24 @@ Then source
 
 In the first terminal, launch the assignment
 'roslaunch ur5_gazebo Assignment.launch' 
-![Image of terminal](Pictures/1.jpg)
+![Image of terminal](./Pictures/1.jpg)
 
 This launches gazebo first. Gazebo starts pauzed, press play to continue the boot (RVIZ will be waiting)
-![Image of gazebo](Pictures/2.jpg)
+![Image of gazebo](./Pictures/2.jpg)
 
 After the boot, I used a 2 screen setup to see the code, gazebo and rviz at the same time.
-![Image of 2 screen setup](Pictures/3.jpg)
+![Image of 2 screen setup](./Pictures/3.jpg)
 
 Wait until the first terminal says "you can start planning now" in green before continuing to the second terminal, then run the python file
 'rosrun ur5_gazebo Assignment.py' 
-![Image of starting python executable](Pictures/4.jpg)
+![Image of starting python executable](./Pictures/4.jpg)
 
 The python file is made that the screen prints what happens at each step. Images are inserted below to show each step.
-![Image of python executable](Pictures/4.jpg)
-![Image of python executable](Pictures/5.jpg)
-![Image of python executable](Pictures/6.jpg)
-![Image of python executable](Pictures/7.jpg)
-![Image of python executable](Pictures/8.jpg)
-![Image of python executable](Pictures/9.jpg)
-![Image of python executable](Pictures/10.jpg)
-![Image of python executable](Pictures/11.jpg)
-![Image of python executable](Pictures/12.jpg)
+![Image of python executable](./Pictures/5.jpg)
+![Image of python executable](./Pictures/6.jpg)
+![Image of python executable](./Pictures/7.jpg)
+![Image of python executable](./Pictures/8.jpg)
+![Image of python executable](./Pictures/9.jpg)
+![Image of python executable](./Pictures/10.jpg)
+![Image of python executable](./Pictures/11.jpg)
+![Image of python executable](./Pictures/12.jpg)
