@@ -31,17 +31,17 @@ In the first terminal, launch the assignment
 
 This launches gazebo first. Gazebo starts pauzed, press play to continue the boot (RVIZ will be waiting)
 
-![Image of gazebo](./Pictures/2.png)
+![Image of gazebo](./Pictures/3.png)
 
 After the boot, I used a 2 screen setup to see the code, gazebo and rviz at the same time.
 
-![Image of 2 screen setup](./Pictures/3.png)
+![Image of 2 screen setup](./Pictures/4.png)
 
 Wait until the first terminal says "you can start planning now" in green before continuing to the second terminal, then run the python file
 
 `rosrun ur5_gazebo Assignment.py` 
 
-![Image of starting python executable](./Pictures/4.png)
+![Image of starting python executable](./Pictures/2.png)
 
 The python file is made that the screen prints what happens at each step. Images are inserted below to show each step.
 
