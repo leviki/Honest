@@ -1,9 +1,9 @@
 controller_list:
 # Joint state controller (publish joint states)
- - name: joint_state_controller
-   publish_rate: 125
-   action_ns: follow_joint_trajectory
-   type: FollowJointTrajectory 
+# - name: joint_state_controller
+#   publish_rate: 125
+#   action_ns: follow_joint_trajectory
+#   type: FollowJointTrajectory 
 # type: joint_state_controller/JointStateController
 #   joints:
 

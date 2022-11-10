@@ -42,4 +42,8 @@ rusrun octomap_server octomap_saver -f my_octomap.bt #bt binary, ot full informa
 
 
 
-
+roslaunch ur5_gazebo ur5_cubes.launch
+roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch sim:=true
+roslaunch ur5_moveit_config moveit_rviz.launch config:=true
+rosrun ur5_gazebo Assignment.py
+rosrun ur5_gazebo send_gripper.py --value 0.36

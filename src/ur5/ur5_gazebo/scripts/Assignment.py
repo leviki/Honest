@@ -54,6 +54,10 @@ from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
 ## END_SUB_TUTORIAL
 
+import actionlib
+import control_msgs.msg
+#ADDED
+
 def all_close(goal, actual, tolerance):
   """
   Convenience method for testing if a list of values are within a tolerance of their counterparts in another list
@@ -150,7 +154,6 @@ class MoveGroupPythonIntefaceTutorial(object):
     # In practice, you should use the class variables directly unless you have a good
     # reason not to.
     group = self.group
-    print(group)
     ## BEGIN_SUB_TUTORIAL plan_to_joint_state
     ##
     ## Planning to a Joint Goal
@@ -159,7 +162,7 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## thing we want to do is move it to a slightly better configuration.
     # We can get the joint values from the group and adjust some of the values:
     joint_goal = group.get_current_joint_values()
-    print(joint_goal)
+    #print(joint_goal)
     joint_goal[0] = -0.79
     joint_goal[1] = -2.36
     joint_goal[2] =  1.31
@@ -182,6 +185,46 @@ class MoveGroupPythonIntefaceTutorial(object):
     current_joints = self.group.get_current_joint_values()
     return all_close(joint_goal, current_joints, 0.01)
 
+  def go_to_pose_box(self):
+    # Copy class variables to local variables to make the web tutorials more clear.
+    # In practice, you should use the class variables directly unless you have a good
+    # reason not to.
+    group = self.group
+
+    ## BEGIN_SUB_TUTORIAL plan_to_pose
+    ##
+    ## Planning to a Pose Goal
+    ## ^^^^^^^^^^^^^^^^^^^^^^^
+    ## We can plan a motion for this group to a desired pose for the
+    ## end-effector:
+    
+    #print self.robot.get_current_variable_values()
+    pose_goal = geometry_msgs.msg.Pose()
+    pose_goal.orientation.w = 0.0
+    pose_goal.orientation.x = 0.707
+    pose_goal.orientation.y = 0.0
+    pose_goal.orientation.z = -0.707
+    pose_goal.position.x = 0.4
+    pose_goal.position.y = -0.2
+    pose_goal.position.z = 0.775-0.41
+    group.set_pose_target(pose_goal)
+
+    ## Now, we call the planner to compute the plan and execute it.
+    plan = group.go(wait=True)
+    # Calling `stop()` ensures that there is no residual movement
+    group.stop()
+    # It is always good to clear your targets after planning with poses.
+    # Note: there is no equivalent function for clear_joint_value_targets()
+    group.clear_pose_targets()
+
+    ## END_SUB_TUTORIAL
+
+    # For testing:
+    # Note that since this section of code will not be included in the tutorials
+    # we use the class variable rather than the copied state variable
+    current_pose = self.group.get_current_pose().pose
+    return all_close(pose_goal, current_pose, 0.01)
+
   def go_to_pose_goal(self):
     # Copy class variables to local variables to make the web tutorials more clear.
     # In practice, you should use the class variables directly unless you have a good
@@ -194,15 +237,16 @@ class MoveGroupPythonIntefaceTutorial(object):
     ## ^^^^^^^^^^^^^^^^^^^^^^^
     ## We can plan a motion for this group to a desired pose for the
     ## end-effector:
-    print self.robot.get_current_variable_values()
+    
+    #print self.robot.get_current_variable_values()
     pose_goal = geometry_msgs.msg.Pose()
     pose_goal.orientation.w = 0.0
     pose_goal.orientation.x = 0.707
     pose_goal.orientation.y = 0.0
     pose_goal.orientation.z = -0.707
     pose_goal.position.x = 0.4
-    pose_goal.position.y = -0.2
-    pose_goal.position.z = 0.775-0.42
+    pose_goal.position.y = 0.2
+    pose_goal.position.z = 0.775-0.35
     group.set_pose_target(pose_goal)
 
     ## Now, we call the planner to compute the plan and execute it.
@@ -238,22 +282,22 @@ class MoveGroupPythonIntefaceTutorial(object):
     waypoints = []
 
     wpose = group.get_current_pose().pose
-    wpose.position.z -= scale * 0.1  # First move up (z)
-    wpose.position.y += scale * 0.2  # and sideways (y)
+    wpose.position.y -= scale * 0.3  # First move up (z)
+    #wpose.position.y += scale * 0.2  # and sideways (y)
     waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.x += scale * 0.1  # Second move forward/backwards in (x)
-    waypoints.append(copy.deepcopy(wpose))
+    #wpose.position.x += scale * 0.1  # Second move forward/backwards in (x)
+    #waypoints.append(copy.deepcopy(wpose))
 
-    wpose.position.y -= scale * 0.1  # Third move sideways (y)
-    waypoints.append(copy.deepcopy(wpose))
+    #wpose.position.y -= scale * 0.1  # Third move sideways (y)
+    #waypoints.append(copy.deepcopy(wpose))
 
     # We want the Cartesian path to be interpolated at a resolution of 1 cm
     # which is why we will specify 0.01 as the eef_step in Cartesian
     # translation.  We will disable the jump threshold by setting it to 0.0 disabling:
     (plan, fraction) = group.compute_cartesian_path(
                                        waypoints,   # waypoints to follow
-                                       0.01,        # eef_step
+                                       0.3,        # eef_step
                                        0.0)         # jump_threshold
 
     # Note: We are just planning, not asking move_group to actually move the robot yet:
@@ -361,6 +405,9 @@ class MoveGroupPythonIntefaceTutorial(object):
     box_pose = geometry_msgs.msg.PoseStamped()
     box_pose.header.frame_id = "robotiq_85_left_finger_tip_link"
     box_pose.pose.orientation.w = 1.0
+    box_pose.pose.position.x = 0.02
+    box_pose.pose.position.y = 0.0325
+    box_pose.pose.position.z = 0.0
     box_name = "box"
     scene.add_box(box_name, box_pose, size=(0.05, 0.05, 0.05))
 
@@ -437,10 +484,51 @@ class MoveGroupPythonIntefaceTutorial(object):
 
     # We wait for the planning scene to update.
     return self.wait_for_state_update(box_is_attached=False, box_is_known=False, timeout=timeout)
+  def gripper_client(self, value):
 
+    # Create an action client
+    client = actionlib.SimpleActionClient(
+        '/gripper_controller/gripper_cmd',  # namespace of the action topics
+        control_msgs.msg.GripperCommandAction # action type
+    )
+    
+    # Wait until the action server has been started and is listening for goals
+    client.wait_for_server()
+
+    # Create a goal to send (to the action server)
+    goal = control_msgs.msg.GripperCommandGoal()
+    goal.command.position = value   # From 0.0 to 0.8
+    goal.command.max_effort = -1.0  # Do not limit the effort
+    client.send_goal(goal)
+
+    client.wait_for_result()
+    return client.get_result()
 
 def main():
   try:
+    print "============ Press `Enter` to begin"
+    raw_input()
+    tutorial = MoveGroupPythonIntefaceTutorial()
+    print "============ Press `Enter` to go to initial position"
+    raw_input()
+    tutorial.go_to_joint_state()
+    print "============ Press `Enter` to move camera sideways"
+    raw_input()
+    cartesian_plan, fraction = tutorial.plan_cartesian_path()
+    tutorial.execute_plan(cartesian_plan)
+    print "============ Press `Enter` to go to box position"
+    raw_input()
+    tutorial.go_to_pose_box()
+    print "============ Press `Enter` to close gripper"
+    raw_input()
+    tutorial.gripper_client(0.38)
+    print "============ Press `Enter` to go to target position"
+    raw_input()
+    tutorial.go_to_pose_goal()
+    print "============ Press `Enter` to open gripper"
+    raw_input()
+    tutorial.gripper_client(0.0)
+    '''
     print "============ Press `Enter` to begin the tutorial by setting up the moveit_commander (press ctrl-d to exit) ..."
     raw_input()
     tutorial = MoveGroupPythonIntefaceTutorial()
@@ -487,6 +575,7 @@ def main():
     tutorial.remove_box()
 
     print "============ Python tutorial demo complete!"
+    ''' 
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
